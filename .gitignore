@@ -1,3 +1,6 @@
 # Etsy API key and shared secret (see .env.example)
 .env
 .DS_Store
+
+# Product data and photos, written by the Etsy sync (sync/cli.mjs locally, the Lambda in production)
+site/data/
