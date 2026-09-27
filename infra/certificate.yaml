@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  HTTPS certificate for the Scalar Orgone site. Must be deployed in us-east-1 (CloudFront requirement).
+  DNS is at name.com, so the stack waits until the validation CNAMEs are added there by hand.
+
+Parameters:
+  DomainName:
+    Type: String
+    Default: scalarorgone.com
+
+Resources:
+  Certificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DomainName
+      SubjectAlternativeNames:
+        - !Sub www.${DomainName}
+      ValidationMethod: DNS
+
+Outputs:
+  CertificateArn:
+    Value: !Ref Certificate

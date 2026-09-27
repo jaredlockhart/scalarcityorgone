@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scalar Orgone — Tools for joyful living</title>
+<meta name="description" content="Handmade orgone pyramids, cloudbusters and small pieces, made by hand in Toronto from authentic stones, crystals, metals and powders.">
+<meta property="og:title" content="Scalar Orgone — Tools for joyful living">
+<meta property="og:description" content="Handmade orgone pyramids, cloudbusters and small pieces, made by hand in Toronto.">
+<link rel="icon" href="assets/star-mark.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body id="top">
+
+<header class="site-header">
+  <a href="#top" class="brand"><img src="assets/logo.svg" alt="Scalar Orgone — Tools for joyful living" width="1382" height="393"></a>
+  <nav class="nav">
+    <a href="#shop">Shop</a>
+    <a href="#about">About</a>
+    <a href="https://www.etsy.com/shop/ScalarOrgone">Etsy ↗</a>
+  </nav>
+</header>
+
+<main>
+  <section class="intro wrap">
+    <div class="eyebrow">Handmade in Toronto</div>
+    <p class="lede">Pyramids, cloudbusters and small pieces, each one made by hand from authentic stones, crystals, metals and powders.</p>
+    <div class="actions">
+      <a href="#shop" class="button button-solid">Shop the collection</a>
+      <a href="https://www.etsy.com/shop/ScalarOrgone" class="button button-outline">Visit on Etsy</a>
+    </div>
+    <div class="stats" id="stats" hidden>
+      <span><strong data-stat="rating"></strong> from <span data-stat="reviews"></span> reviews</span>
+      <span><strong data-stat="sales"></strong> sales</span>
+      <span><strong data-stat="years"></strong> on Etsy</span>
+    </div>
+  </section>
+
+  <section id="shop" class="collection wrap">
+    <div class="collection-header">
+      <h2 class="script">The Collection</h2>
+      <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+    </div>
+
+    <ul class="grid" id="grid" aria-live="polite">
+      <li class="card is-placeholder"><div class="photo"></div></li>
+      <li class="card is-placeholder"><div class="photo"></div></li>
+      <li class="card is-placeholder"><div class="photo"></div></li>
+      <li class="card is-placeholder"><div class="photo"></div></li>
+      <li class="card is-placeholder"><div class="photo"></div></li>
+      <li class="card is-placeholder"><div class="photo"></div></li>
+      <li class="card is-placeholder"><div class="photo"></div></li>
+      <li class="card is-placeholder"><div class="photo"></div></li>
+    </ul>
+    <p class="grid-message" id="grid-message" hidden>
+      The collection couldn't be loaded right now. You can browse every piece on
+      <a href="https://www.etsy.com/shop/ScalarOrgone">Etsy</a>.
+    </p>
+    <noscript><p class="grid-message">Browse every piece on <a href="https://www.etsy.com/shop/ScalarOrgone">Etsy</a>.</p></noscript>
+
+    <template id="card-template">
+      <li class="card">
+        <a class="card-link">
+          <div class="photo"><img alt="" loading="lazy" decoding="async"></div>
+          <div class="card-text">
+            <div class="card-category"></div>
+            <div class="card-name"></div>
+            <div class="card-price"></div>
+          </div>
+        </a>
+      </li>
+    </template>
+  </section>
+
+  <section id="about" class="about wrap">
+    <div class="about-inner">
+      <div class="about-heading">
+        <img src="assets/star-mark.svg" alt="" width="110" height="111">
+        <h2 class="script">Made by hand, one piece at a time</h2>
+      </div>
+      <div class="about-copy">
+        <p>Every ScalarOrgone piece is made by hand in Toronto using only high-quality, authentic stones, crystals, metals and powders.</p>
+        <p>Questions about a piece? Email <a href="mailto:scalarorgone@gmail.com">scalarorgone@gmail.com</a>.</p>
+        <a href="https://www.etsy.com/shop/ScalarOrgone#reviews" class="text-link">Read reviews on Etsy →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer wrap">
+  <div class="footer-main">
+    <img src="assets/logo.svg" alt="Scalar Orgone" width="155" height="44">
+    <span>Toronto, Canada · All orders fulfilled through Etsy</span>
+    <a href="mailto:scalarorgone@gmail.com">scalarorgone@gmail.com</a>
+  </div>
+  <div class="footer-legal">
+    <p>The term 'Etsy' is a trademark of Etsy, Inc. This application uses the Etsy API but is not endorsed or certified by Etsy, Inc.</p>
+    <a href="terms.html">Terms &amp; Privacy</a>
+  </div>
+</footer>
+
+</body>
+</html>

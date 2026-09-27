@@ -1,0 +1,9 @@
+{
+  "name": "scalarorgone-sync",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test catalogue.test.mjs sync.test.mjs",
+    "sync:local": "node cli.mjs"
+  }
+}

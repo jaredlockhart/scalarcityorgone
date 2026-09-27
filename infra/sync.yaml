@@ -1,0 +1,102 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Scalar Orgone Etsy sync - a Lambda that refreshes data/products.json in the site bucket every 6 hours.
+
+Parameters:
+  SiteBucket:
+    Type: String
+  CodeBucket:
+    Type: String
+  CodeKey:
+    Type: String
+  ShopName:
+    Type: String
+    Default: ScalarOrgone
+  EtsyApiKey:
+    Type: String
+    Default: ''
+    NoEcho: true
+    Description: Etsy app keystring. The schedule stays disabled until this is set.
+  EtsySharedSecret:
+    Type: String
+    Default: ''
+    NoEcho: true
+
+Conditions:
+  HasKey: !Not [!Equals [!Ref EtsyApiKey, '']]
+
+Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: write-site-data
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: [s3:PutObject, s3:DeleteObject]
+                Resource: !Sub arn:aws:s3:::${SiteBucket}/data/*
+              - Effect: Allow
+                Action: s3:ListBucket
+                Resource: !Sub arn:aws:s3:::${SiteBucket}
+                Condition:
+                  StringLike:
+                    s3:prefix: data/*
+
+  Function:
+    Type: AWS::Lambda::Function
+    Properties:
+      Description: Copies the Etsy shop's active listings into the site's data/products.json
+      Runtime: nodejs22.x
+      Architectures: [arm64]
+      Handler: index.handler
+      MemorySize: 256
+      Timeout: 120
+      Role: !GetAtt Role.Arn
+      Code:
+        S3Bucket: !Ref CodeBucket
+        S3Key: !Ref CodeKey
+      Environment:
+        Variables:
+          BUCKET: !Ref SiteBucket
+          SHOP_NAME: !Ref ShopName
+          ETSY_API_KEY: !Ref EtsyApiKey
+          ETSY_SHARED_SECRET: !Ref EtsySharedSecret
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${Function}
+      RetentionInDays: 30
+
+  # Etsy's API terms: listing details and photos may be at most 6 hours behind Etsy.
+  Schedule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Run the Etsy sync every 6 hours
+      ScheduleExpression: rate(6 hours)
+      State: !If [HasKey, ENABLED, DISABLED]
+      Targets:
+        - Id: sync
+          Arn: !GetAtt Function.Arn
+
+  SchedulePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref Function
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt Schedule.Arn
+
+Outputs:
+  FunctionName:
+    Value: !Ref Function

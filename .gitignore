@@ -1,0 +1,3 @@
+# Etsy API key and shared secret (see .env.example)
+.env
+.DS_Store
