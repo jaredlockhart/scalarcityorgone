@@ -53,6 +53,7 @@ export function buildCatalogue({ shop, listings, overrides = {}, now = new Date(
       },
       url: `https://www.etsy.com/listing/${id}`,
       image: imagePath,
+      materials: listing.materials ?? [],
     };
   });
 

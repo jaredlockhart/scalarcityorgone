@@ -33,6 +33,7 @@ test('builds products and shop stats from Etsy responses', () => {
     price: { amount: 777.77, currency: 'CAD' },
     url: 'https://www.etsy.com/listing/1528324112',
     image: 'data/images/1528324112-11.jpg',
+    materials: [],
   });
   assert.deepEqual(images, [{ key: 'data/images/1528324112-11.jpg', url: 'https://i.etsystatic.com/first.jpg' }]);
 });
@@ -48,6 +49,16 @@ test('listings without photos get no image', () => {
   const { catalogue, images } = buildCatalogue({ shop, listings: [listing({ images: [] })] });
   assert.equal(catalogue.products[0].image, null);
   assert.deepEqual(images, []);
+});
+
+test('carries over a listing\'s materials', () => {
+  const { catalogue } = buildCatalogue({ shop, listings: [listing({ materials: ['shungite', 'copper', 'quartz'] })] });
+  assert.deepEqual(catalogue.products[0].materials, ['shungite', 'copper', 'quartz']);
+});
+
+test('listings without materials get an empty list', () => {
+  const { catalogue } = buildCatalogue({ shop, listings: [listing()] });
+  assert.deepEqual(catalogue.products[0].materials, []);
 });
 
 test('decodes the entities Etsy puts in titles', () => {
