@@ -44,8 +44,30 @@ img { display: block; max-width: 100%; }
 
 /* Header */
 
+.site-header { position: relative; }
 .brand { display: block; padding: 28px var(--gutter) 22px; }
 .brand img { height: clamp(72px, 9vw, 132px); width: auto; margin: 0 auto; }
+
+.look-toggle {
+  position: absolute;
+  top: 14px;
+  right: var(--gutter);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--control-line);
+  padding: 6px 10px;
+  line-height: 1;
+}
+.look-toggle a { text-decoration: none; color: var(--ink); }
+.look-toggle a:hover { color: var(--muted); }
+.look-toggle strong { color: var(--ink); font-weight: 600; }
 
 .nav {
   height: 52px;
@@ -213,7 +235,9 @@ img { display: block; max-width: 100%; }
 
 @media (max-width: 600px) {
   :root { --gutter: 20px; }
-  .brand { padding-top: 20px; padding-bottom: 16px; }
+  .look-toggle { position: static; justify-content: flex-end; width: 100%; box-sizing: border-box;
+                 border: none; border-bottom: 1px solid var(--line); padding: 8px var(--gutter); font-size: 10px; }
+  .brand { padding-top: 16px; padding-bottom: 16px; }
   .nav { height: 48px; gap: 32px; font-size: 13px; }
   .intro { padding-top: 28px; padding-bottom: 36px; gap: 16px; }
   .lede { font-size: 16px; }

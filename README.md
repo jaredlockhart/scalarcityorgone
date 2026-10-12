@@ -1,24 +1,48 @@
 # scalarcityorgone
 Tools for joyful living
 
-The website for [ScalarOrgone](https://www.etsy.com/shop/ScalarOrgone): a single static page that shows the
-Etsy shop's products and links each one to its Etsy listing. Orders happen on Etsy.
+The website for [ScalarOrgone](https://www.etsy.com/shop/ScalarOrgone): a static page that shows the Etsy
+shop's products and links each one to its Etsy listing. Orders happen on Etsy. The site has two looks:
+
+- `/` (`site/index.html`) is the default: a hand-built 90s GeoCities-style page, 17 product "heroes" built
+  from found GIFs. It's static HTML generated once by `retro/build.py` (see `retro/README.md`), but stays
+  current on its own: `site/retro/retro.js` fetches `data/products.json` on load and patches in prices, each listing's WHAT'S INSIDE ingredients,
+  hides listings that are sold or deactivated, and adds a plain listing for anything new on Etsy.
+- `/modern.html` is the clean, contemporary look (the site's original design). It fetches
+  `data/products.json` directly with `app.js` and renders the whole collection from it, so it always shows
+  every current product (no regeneration needed for it to stay current).
+
+Both pages carry a small "LOOK: 90s | MODERN" toggle to switch between them. `/terms.html` (modern style)
+is linked from both.
 
 ```
-site/        the static site (index.html, styles.css, app.js, assets/)
-  assets/    logo.svg (lettering traced from the original banner; the star and rosette rebuilt as exact
-             geometry) and star-mark.svg (just the star)
-  data/      products.json + product photos, written by the sync (not in git). The page fetches
-             data/products.json when it loads.
-sync/        Lambda that refreshes site/data from the Etsy API every 6 hours
-infra/       CloudFormation templates and deploy scripts
+site/          the static site
+  index.html   the 90s look (generated -- see retro/, do not hand-edit)
+  modern.html  the modern look (hand-edited), styles.css, app.js
+  terms.html   Terms & Privacy (modern style)
+  assets/      logo.svg (lettering traced from the original banner; the star and rosette rebuilt as exact
+               geometry) and star-mark.svg (just the star), used by both looks
+  retro/       assets/ (the 90s page's GIFs) and products/ (its hero photos), plus retro.js, the only
+               JavaScript on the 90s page
+  data/        products.json + product photos, written by the sync (not in git). Both looks fetch
+               data/products.json when they load.
+retro/         generates site/index.html -- see retro/README.md
+sync/          Lambda that refreshes site/data from the Etsy API every 6 hours
+infra/         CloudFormation templates and deploy scripts
 ```
 
 ## Preview locally
 
 ```
 cd sync && npm run sync:local && cd ..   # fetch the current products into site/data (needs .env, below)
-python3 -m http.server -d site 8000      # then open http://localhost:8000
+python3 -m http.server -d site 8000      # then open http://localhost:8000 (the 90s look) or /modern.html
+```
+
+The 90s page (`site/index.html`) only needs rebuilding for a layout or copy change:
+
+```
+python3 retro/build.py      # writes site/index.html
+python3 retro/verify.py     # checks it against the artist's hard numbers
 ```
 
 ## Deploy
